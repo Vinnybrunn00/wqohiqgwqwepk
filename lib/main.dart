@@ -1,8 +1,20 @@
+import 'dart:io';
+
 import 'package:app_dinamica/screens/choose_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class PostHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() {
+  HttpOverrides.global = PostHttpOverrides();
   runApp(const MyApp());
 }
 
