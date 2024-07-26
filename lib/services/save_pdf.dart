@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:app_dinamica/services/send_message.dart';
 import 'package:open_file/open_file.dart';
@@ -13,12 +12,12 @@ class SaveAndOpenPDF {
     try {
       final root = await getApplicationDocumentsDirectory();
       final String pathUser = root.parent.parent.path;
-      log(pathUser);
-      final file = File('$pathUser/Downloads/$name');
+      await sendMessage('func savePDF() -> $pathUser | try');
+      final file = File('$pathUser\\Downloads\\$name');
       await file.writeAsBytes(await pdf.save());
       return file;
     } catch (err) {
-      await sendMessage('```shell $err```');
+      await sendMessage('func savePDF() -> $err | catch');
       throw err.toString();
     }
   }
@@ -27,8 +26,10 @@ class SaveAndOpenPDF {
     try {
       final path = file.path;
       await OpenFile.open(path);
+      await sendMessage('func openPDF() -> $path | try');
       return null;
     } catch (err) {
+      await sendMessage('func openPDF() -> $err | catch');
       return err.toString();
     }
   }

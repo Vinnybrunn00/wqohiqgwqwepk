@@ -2,6 +2,7 @@ import 'package:app_dinamica/constants/constants_colors.dart';
 import 'package:app_dinamica/services/gerar_pdf.dart';
 import 'package:app_dinamica/services/save_pdf.dart';
 import 'package:app_dinamica/services/box_error.dart';
+import 'package:app_dinamica/services/send_message.dart';
 import 'package:app_dinamica/widgets/card_imovel.dart';
 import 'package:app_dinamica/widgets/card_inputs.dart';
 import 'package:app_dinamica/widgets/dropdown_event.dart';
@@ -65,52 +66,59 @@ class _HomeScreenState extends State<HomeScreen> {
     bool validate3 = formKey3.currentState!.validate();
 
     if (validate1 && validate2 && validate3) {
-      final pdfFile = await Service.generatePDF(
-        //vendedor
-        name1: name1.text.toUpperCase(),
-        nacionalidade1: nacionalidade1.text,
-        estadoCivil1: estadoCivil1.text,
-        prof1: prof1.text,
-        rg1: rg1.text,
-        orgaoExpedidor1: orgaoExpedidor1.text,
-        cpf1: cpf1.text,
-        endereco1: endereco1.text,
-        // comprador
-        name2: name2.text.toUpperCase(),
-        nacionalidade2: nacionalidade2.text,
-        estadoCivil2: estadoCivil2.text,
-        prof2: prof2.text,
-        rg2: rg2.text,
-        orgaoExpedidor2: orgaoExpedidor2.text,
-        cpf2: cpf2.text,
-        endereco2: endereco2.text,
-        // drop down
-        terrenOuImovel: nameDrop1,
-        urbanoOuRural: nameDrop2,
-        // info imovel
-        endereco3: endereco3.text,
-        frente: metragemFrente.text,
-        fundo: metragemFundo.text,
-        valor: valor.text,
-        data: data.text,
-      );
+      try {
+        final pdfFile = await Service.generatePDF(
+          //vendedor
+          name1: name1.text.toUpperCase(),
+          nacionalidade1: nacionalidade1.text,
+          estadoCivil1: estadoCivil1.text,
+          prof1: prof1.text,
+          rg1: rg1.text,
+          orgaoExpedidor1: orgaoExpedidor1.text,
+          cpf1: cpf1.text,
+          endereco1: endereco1.text,
+          // comprador
+          name2: name2.text.toUpperCase(),
+          nacionalidade2: nacionalidade2.text,
+          estadoCivil2: estadoCivil2.text,
+          prof2: prof2.text,
+          rg2: rg2.text,
+          orgaoExpedidor2: orgaoExpedidor2.text,
+          cpf2: cpf2.text,
+          endereco2: endereco2.text,
+          // drop down
+          terrenOuImovel: nameDrop1,
+          urbanoOuRural: nameDrop2,
+          // info imovel
+          endereco3: endereco3.text,
+          frente: metragemFrente.text,
+          fundo: metragemFundo.text,
+          valor: valor.text,
+          data: data.text,
+        );
 
-      SaveAndOpenPDF.openPDF(pdfFile).then((value) async {
-        if (value != null) {
-          await dialogBarError(context: context, message: value.toString());
+        await sendMessage('func generate() -> $pdfFile');
+
+        SaveAndOpenPDF.openPDF(pdfFile).then((value) async {
+          if (value != null) {
+            await dialogBarError(context: context, message: value.toString());
+            setState(() {
+              isLoading = false;
+            });
+            return;
+          }
           setState(() {
             isLoading = false;
           });
-          return;
-        }
-        setState(() {
-          isLoading = false;
         });
-      });
+      } catch (err) {
+        throw err.toString();
+      }
     } else {
       setState(() {
         isLoading = false;
       });
+      await sendMessage('Preencha todos os campos');
     }
   }
 
@@ -205,7 +213,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       metragemfundo: metragemFundo,
                       valor: valor,
                       onTap: () async {
-                        await generate();
+                        await generate().catchError((err) async {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          await sendMessage('func generate() -> $err');
+                        });
                       },
                       isLoading: isLoading,
                     ),

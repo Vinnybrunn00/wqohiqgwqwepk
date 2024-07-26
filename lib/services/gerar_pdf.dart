@@ -36,8 +36,8 @@ class Service {
   }) async {
     final pdf = Document();
 
-    final font = File('assets/fonts/arial.ttf').readAsBytesSync();
-    final ttf = Font.ttf(font.buffer.asByteData());
+    //final font = File('assets/fonts/arial.ttf').readAsBytesSync();
+    //final ttf = Font.ttf(font.buffer.asByteData());
 
     pdf.addPage(
       Page(
