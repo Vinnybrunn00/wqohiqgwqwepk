@@ -1,5 +1,6 @@
 import 'package:app_dinamica/constants/constants_colors.dart';
-import 'package:app_dinamica/pages/screens.dart';
+import 'package:app_dinamica/pages/contract_imovel_screens.dart';
+import 'package:app_dinamica/pages/curriculum_screens.dart';
 import 'package:app_dinamica/widgets/button_event.dart';
 import 'package:flutter/material.dart';
 
@@ -28,14 +29,20 @@ class _ChooseScreenState extends State<ChooseScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      builder: (context) => const HomeScreenContractImovel(),
                     ),
                   );
                 },
               ),
               EventButton(
-                text: 'exemple',
-                onTap: () {},
+                text: 'CURRICULO',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const CurriculumScreen(),
+                    ),
+                  );
+                },
               ),
               EventButton(
                 text: 'exemple',

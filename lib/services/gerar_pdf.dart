@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:app_dinamica/constants/font_const.dart';
 import 'package:app_dinamica/services/save_pdf.dart';
+import 'package:app_dinamica/utils/def_utils.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
 class Service {
   static Future<File> generatePDF({
+    // root
+    required String root,
     // vendedor
     required String name1,
     required String nacionalidade1,
@@ -15,6 +18,12 @@ class Service {
     required String orgaoExpedidor1,
     required String cpf1,
     required String endereco1,
+    required String cidade1,
+    required String rua1,
+    required String numero1,
+    required String cep1,
+    required String estado1,
+
     // comprador
     required String name2,
     required String nacionalidade2,
@@ -24,6 +33,11 @@ class Service {
     required String orgaoExpedidor2,
     required String cpf2,
     required String endereco2,
+    required String cidade2,
+    required String rua2,
+    required String numero2,
+    required String cep2,
+    required String estado2,
     // drop down
     required String terrenOuImovel,
     required String urbanoOuRural,
@@ -32,7 +46,16 @@ class Service {
     required String frente,
     required String fundo,
     required String valor,
-    required String data,
+    required String cidade3,
+    required String rua3,
+    required String numero3,
+    required String cep3,
+    required String estado3,
+    required String pagante,
+    required String reu,
+    required String dia,
+    required String mes,
+    required String ano,
   }) async {
     final pdf = Document();
 
@@ -88,7 +111,8 @@ class Service {
                       ),
                     ),
                     TextSpan(
-                      text: 'residente e domiciliado na $endereco2',
+                      text:
+                          'residente e domiciliado na $endereco1, Rua $rua1, Nº $numero1, $cidade1/${estado1.toLowerCase()}',
                       style: const TextStyle(
                         fontSize: fontSized,
                       ),
@@ -122,7 +146,8 @@ class Service {
                       ),
                     ),
                     TextSpan(
-                      text: 'residente e domiciliado na $endereco2',
+                      text:
+                          'residente e domiciliado na $endereco2, Rua $rua2, Nº $numero2, $cidade2/${estado2.toLowerCase()}',
                       style: const TextStyle(
                         fontSize: fontSized,
                       ),
@@ -201,7 +226,7 @@ class Service {
                       ),
                     ),
                     TextSpan(
-                      text: 'COMPRADORA ',
+                      text: 'COMPRADOR(A) ',
                       style: TextStyle(
                         fontSize: fontSized,
                         fontWeight: FontWeight.bold,
@@ -233,10 +258,10 @@ class Service {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const TextSpan(
+                    TextSpan(
                       text:
-                          'pagos pela empresa SÃO BERNARDO SOLUÇÕES INFORMÁTICAS LTDA (CNPJ: 02.653.664/0001-85), em creditórios oriundos do processo número 0118548-98.2005.8.12.0001 da Quinta Vara Cível da Comarca de Campo Grande, Mato Grosso do Sul, tendo como réu o Banco do Brasil S/A. ',
-                      style: TextStyle(
+                          'pagos por/pela $pagante, em creditórios oriundos do processo número 0118548-98.2005.8.12.0001 da Quinta Vara Cível da Comarca de $cidade3, $estado3, tendo como réu o $reu.',
+                      style: const TextStyle(
                         fontSize: fontSized,
                       ),
                     ),
@@ -364,7 +389,7 @@ class Service {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Sobradinho/BA, 23 julho de 2024',
+                    'Sobradinho/BA, $dia ${sendMonth(int.parse(mes))} de $ano',
                     style: const TextStyle(
                       fontSize: 12,
                     ),
@@ -477,6 +502,6 @@ class Service {
         ),
       ),
     );
-    return SaveAndOpenPDF.savePDF(name: 'teste.pdf', pdf: pdf);
+    return SaveAndOpenPDF.savePDF(name: 'teste.pdf', pdf: pdf, path: root);
   }
 }

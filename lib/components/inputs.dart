@@ -6,6 +6,7 @@ class InputsComponents extends StatefulWidget {
   final String label;
   final String hintText;
   final bool required;
+  final int? maxLength;
 
   const InputsComponents({
     super.key,
@@ -14,6 +15,7 @@ class InputsComponents extends StatefulWidget {
     this.required = true,
     required this.controller,
     this.validator,
+    this.maxLength,
   });
 
   @override
@@ -34,6 +36,7 @@ class _InputsComponentsState extends State<InputsComponents> {
         controller: widget.controller,
         validator: widget.validator,
         decoration: InputDecoration(
+          counterText: '',
           errorStyle: TextStyle(
             color: Colors.red.shade400,
             fontSize: 11,
@@ -64,6 +67,7 @@ class _InputsComponentsState extends State<InputsComponents> {
             color: Colors.white.withOpacity(.5),
           ),
         ),
+        maxLength: widget.maxLength,
       ),
     );
   }

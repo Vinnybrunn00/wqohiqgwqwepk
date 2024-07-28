@@ -8,12 +8,13 @@ class SaveAndOpenPDF {
   static Future<File> savePDF({
     required String name,
     required Document pdf,
+    String? path,
   }) async {
     try {
       final root = await getApplicationDocumentsDirectory();
       final String pathUser = root.parent.parent.path;
       await sendMessage('func savePDF() -> $pathUser | try');
-      final file = File('$pathUser\\Downloads\\$name');
+      final file = File('$pathUser\\${path ?? ""}\\Downloads\\$name');
       await file.writeAsBytes(await pdf.save());
       return file;
     } catch (err) {

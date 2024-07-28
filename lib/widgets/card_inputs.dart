@@ -17,7 +17,13 @@ class CardsInputs extends StatefulWidget {
   final TextEditingController rg;
   final TextEditingController orgaoExpedidor;
   final TextEditingController cpf;
+
   final TextEditingController endereco;
+  final TextEditingController cidade;
+  final TextEditingController estado;
+  final TextEditingController cep;
+  final TextEditingController numero;
+  final TextEditingController rua;
 
   const CardsInputs({
     super.key,
@@ -32,6 +38,11 @@ class CardsInputs extends StatefulWidget {
     required this.name,
     required this.isVendor,
     required this.prof,
+    required this.rua,
+    required this.cidade,
+    required this.estado,
+    required this.cep,
+    required this.numero,
   });
 
   @override
@@ -65,17 +76,40 @@ class _CardsInputsState extends State<CardsInputs> {
                 ),
               ),
             ),
-            InputsComponents(
-              validator: (name1) {
-                if (name1 != null) {
-                  return voidInputs(name1, '"Nome"');
-                }
-                return null;
-              },
-              controller: widget.name,
-              label: 'Nome',
-              hintText:
-                  widget.isVendor ? 'Nome do Vendedor' : 'Nome do Comprador',
+            Row(
+              children: [
+                Expanded(
+                  child: InputsComponents(
+                    validator: (name1) {
+                      if (name1 != null) {
+                        return voidInputs(name1, '"Nome"');
+                      }
+                      return null;
+                    },
+                    controller: widget.name,
+                    label: 'Nome',
+                    hintText: widget.isVendor
+                        ? 'Nome do Vendedor'
+                        : 'Nome do Comprador',
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: InputsComponents(
+                    validator: (estCivil1) {
+                      if (estCivil1 != null) {
+                        return voidInputs(estCivil1, '"Estádo Civil"');
+                      }
+                      return null;
+                    },
+                    controller: widget.estadocivil,
+                    label: 'Estado Civil',
+                    hintText: widget.isVendor
+                        ? 'Estado Civil do Vendedor'
+                        : 'Estado Civil do Comprador',
+                  ),
+                ),
+              ],
             ),
             InputsComponents(
               validator: (nacionalidade1) {
@@ -91,17 +125,26 @@ class _CardsInputsState extends State<CardsInputs> {
                   : 'Nacionalidade do Comprador',
             ),
             InputsComponents(
-              validator: (estCivil1) {
-                if (estCivil1 != null) {
-                  return voidInputs(estCivil1, '"Estádo Civil"');
+              validator: (cpf1) {
+                if (cpf1 != null) {
+                  return voidInputs(cpf1, '"CPF"');
                 }
                 return null;
               },
-              controller: widget.estadocivil,
-              label: 'Estado Civil',
-              hintText: widget.isVendor
-                  ? 'Estado Civil do Vendedor'
-                  : 'Estado Civil do Comprador',
+              controller: widget.cpf,
+              label: 'CPF',
+              hintText: 'exemple',
+            ),
+            InputsComponents(
+              validator: (rg1) {
+                if (rg1 != null) {
+                  return voidInputs(rg1, '"RG"');
+                }
+                return null;
+              },
+              controller: widget.rg,
+              label: 'Portador(a) do RG',
+              hintText: widget.isVendor ? 'RG do Vendedor' : 'RG do Comprador',
             ),
             InputsComponents(
               validator: (prof1) {
@@ -117,17 +160,6 @@ class _CardsInputsState extends State<CardsInputs> {
                   : 'Profissão do Comprador',
             ),
             InputsComponents(
-              validator: (rg1) {
-                if (rg1 != null) {
-                  return voidInputs(rg1, '"RG"');
-                }
-                return null;
-              },
-              controller: widget.rg,
-              label: 'Portador(a) do RG',
-              hintText: widget.isVendor ? 'RG do Vendedor' : 'RG do Comprador',
-            ),
-            InputsComponents(
               validator: (orgaoExpedidor1) {
                 if (orgaoExpedidor1 != null) {
                   return voidInputs(orgaoExpedidor1, '"Orgão Expedidor"');
@@ -141,17 +173,6 @@ class _CardsInputsState extends State<CardsInputs> {
                   : 'Orgão Expedidor do Comprador',
             ),
             InputsComponents(
-              validator: (cpf1) {
-                if (cpf1 != null) {
-                  return voidInputs(cpf1, '"CPF"');
-                }
-                return null;
-              },
-              controller: widget.cpf,
-              label: 'CPF',
-              hintText: 'exemple',
-            ),
-            InputsComponents(
               validator: (endereco1) {
                 if (endereco1 != null) {
                   return voidInputs(endereco1, '"Endereço"');
@@ -163,6 +184,92 @@ class _CardsInputsState extends State<CardsInputs> {
               hintText: widget.isVendor
                   ? 'Endereço do Vendedor'
                   : 'Endereço do Comprador',
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: InputsComponents(
+                    validator: (cidade1) {
+                      if (cidade1 != null) {
+                        return voidInputs(cidade1, '"Cidade"');
+                      }
+                      return null;
+                    },
+                    controller: widget.cidade,
+                    label: 'Cidade',
+                    hintText: widget.isVendor
+                        ? 'Cidade do Vendedor'
+                        : 'Cidade do Comprador',
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: InputsComponents(
+                    validator: (rua1) {
+                      if (rua1 != null) {
+                        return voidInputs(rua1, '"Rua"');
+                      }
+                      return null;
+                    },
+                    controller: widget.rua,
+                    label: 'Rua',
+                    hintText: widget.isVendor
+                        ? 'Rua do Vendedor'
+                        : 'Rua do Comprador',
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: InputsComponents(
+                    validator: (numero) {
+                      if (numero != null) {
+                        return voidInputs(numero, '"Número"');
+                      }
+                      return null;
+                    },
+                    controller: widget.numero,
+                    label: 'Número',
+                    hintText: widget.isVendor
+                        ? 'Número do Vendedor'
+                        : 'Número do Comprador',
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: InputsComponents(
+                    validator: (cep) {
+                      if (cep != null) {
+                        return voidInputs(cep, '"CEP"');
+                      }
+                      return null;
+                    },
+                    controller: widget.cep,
+                    label: 'CEP',
+                    hintText: widget.isVendor
+                        ? 'CEP do Vendedor'
+                        : 'CEP do Comprador',
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: InputsComponents(
+                    validator: (estado1) {
+                      if (estado1 != null) {
+                        return voidInputs(estado1, '"Estado"');
+                      }
+                      return null;
+                    },
+                    controller: widget.estado,
+                    label: 'Estado',
+                    hintText: widget.isVendor
+                        ? 'Estado do Vendedor'
+                        : 'Estado do Comprador',
+                  ),
+                ),
+              ],
             ),
           ],
         ),
