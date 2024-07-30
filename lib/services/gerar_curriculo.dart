@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app_dinamica/services/save_pdf.dart';
 import 'package:app_dinamica/utils/def_utils.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 
@@ -38,6 +39,10 @@ class Services {
     //final font = File('assets/fonts/arial.ttf').readAsBytesSync();
     //final ttf = Font.ttf(font.buffer.asByteData());
 
+    final imagePDF = (await rootBundle.load('assets/images/image_c.jpeg'))
+        .buffer
+        .asUint8List();
+
     pdf.addPage(
       Page(
         build: (_) => Center(
@@ -62,20 +67,24 @@ class Services {
                                     children: [
                                       Container(
                                         margin: const EdgeInsets.only(
-                                          left: 20,
-                                          top: 20,
+                                          top: 35,
                                         ),
-                                        height: 150,
-                                        width: 150,
-                                        child: Image(image),
+                                        height: 90,
+                                        width: 90,
+                                        color: PdfColor.fromHex('#000000'),
+                                        child: Image(
+                                          image,
+                                          height: 90,
+                                          width: 90,
+                                        ),
                                       ),
                                       Expanded(
                                         child: Column(
                                           children: [
                                             Text(
-                                              name,
+                                              name.toUpperCase(),
                                               style: TextStyle(
-                                                fontSize: 23,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -109,7 +118,9 @@ class Services {
                                                                 FontWeight.bold,
                                                           ),
                                                         ),
-                                                        TextSpan(text: idade),
+                                                        TextSpan(
+                                                          text: '$idade anos',
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
@@ -159,7 +170,7 @@ class Services {
                                     child: Column(
                                       children: [
                                         Text(
-                                          name,
+                                          name.toUpperCase(),
                                           style: TextStyle(
                                             fontSize: 23,
                                             fontWeight: FontWeight.bold,
@@ -184,7 +195,7 @@ class Services {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Text(idade),
+                                              Text('$idade anos'),
                                               Text('$cidade, $estado'),
                                               Text(telefone),
                                               Text(email)
@@ -251,10 +262,23 @@ class Services {
                             ),
                             SizedBox(height: 5),
                             for (int i = 0; i < listSplit.length; i++)
-                              Text(
-                                '${param(i)}: ${listSplit[i]}',
-                                style: const TextStyle(
-                                  fontSize: 12,
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: '${param(i)}:',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: listSplit[i],
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                           ],
@@ -266,6 +290,9 @@ class Services {
                     color: PdfColor.fromHex('#de1f12'),
                     height: 200 * 3.6,
                     width: 100,
+                    child: Image(
+                      MemoryImage(imagePDF),
+                    ),
                   ),
                 ],
               ),
@@ -274,6 +301,7 @@ class Services {
         ),
       ),
     );
-    return SaveAndOpenPDF.savePDF(name: 'curriculo.pdf', pdf: pdf, path: root);
+    return SaveAndOpenPDF.savePDF(
+        name: 'Curriculo - $name.pdf', pdf: pdf, path: root);
   }
 }

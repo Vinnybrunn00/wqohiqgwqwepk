@@ -6,7 +6,6 @@ import 'package:app_dinamica/services/gerar_pdf.dart';
 import 'package:app_dinamica/services/save_pdf.dart';
 import 'package:app_dinamica/services/box_error.dart';
 import 'package:app_dinamica/services/send_message.dart';
-import 'package:app_dinamica/utils/def_utils.dart';
 import 'package:app_dinamica/widgets/card_imovel.dart';
 import 'package:app_dinamica/widgets/card_inputs.dart';
 import 'package:app_dinamica/widgets/dropdown_event.dart';
@@ -158,7 +157,6 @@ class _HomeScreenContractImovelState extends State<HomeScreenContractImovel> {
         );
 
         await sendMessage('func generate() -> $pdfFile');
-
         SaveAndOpenPDF.openPDF(pdfFile).then((value) async {
           if (value != null) {
             await dialogBarError(context: context, message: value.toString());

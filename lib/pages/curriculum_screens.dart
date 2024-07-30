@@ -216,6 +216,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
                                 }
                                 return null;
                               },
+                              maxLength: 2,
                               controller: idade,
                               label: 'idade',
                               hintText: 'idade',
@@ -337,6 +338,7 @@ class _CurriculumScreenState extends State<CurriculumScreen> {
                                 }
                                 return null;
                               },
+                              maxLength: 2,
                               controller: estado,
                               label: 'Estado',
                               hintText: 'exemple',
